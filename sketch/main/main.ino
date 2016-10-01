@@ -88,46 +88,6 @@ extern BLEPeripheral blePeripheral;
 extern BLECharCharacteristic switchChar;
 #define MINUS_VALUE  10
 
-void bruteForceTheCode()
-{
-  // Note: We need to have a static array so that _countof actually works.
-  static unsigned short arrayCopy[_countof(projector_POWER_ON)];
-
-  // Copy from target into source.
-  for(unsigned int i = 0; i < _countof(arrayCopy); i++) {
-    arrayCopy[i] = projector_POWER_ON[i] - MINUS_VALUE;
-  }
-  
-  for(unsigned short k = 0; k < MINUS_VALUE*2; k++) {
-    //unsigned long j = 68890;
-    for(long j = 67600; j < 69000; j += 10) {
-       for(int repeat = 0; repeat < 10; repeat++) {
-
-         sendRawCode(arrayCopy, 
-                     _countof(arrayCopy), 
-                     GPIO_PIN);
-         delayMicroseconds(j);
-
-       }
-
-       
-       Serial.print("Just ran: j = ");
-       Serial.print(j, DEC);
-       Serial.print(", k = ");
-       Serial.println(k, DEC);
-       
-       delay(100);
-       //digitalWrite(13, HIGH);
-    }
-
-    for(unsigned int i = 0; i < _countof(arrayCopy); i++) {
-      arrayCopy[i] += 1;
-    }
-  }
-  // Light up the LED when done brute forcing
-  digitalWrite(13, HIGH);
-}
-
 void setup() {
   // put your setup code here, to run once:
   pinMode(13, OUTPUT);
