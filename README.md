@@ -4,6 +4,8 @@ A project to enable sending raw codes over infrared which supports
 the [Arduino101](https://www.arduino.cc/en/Main/ArduinoBoard101) 
 development board.
 
+This project utilizes the [LircRemote101](https://github.com/dantler/LircRemote101) library by [dantler](https://github.com/dantler). This library enables LIRC for Arduino101 development boards.
+
 Raw codes must be provided in the form of an array in the format
 used by [lirc](http://lirc.org/html/lircd.conf.html) under
 "begin raw_codes".  Currently a 38KHz signal is the only supported
