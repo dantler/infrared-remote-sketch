@@ -1,0 +1,43 @@
+
+# this config file was automatically generated
+# using lirc-0.9.0(IRToy) on Fri Jan 01 12:44:37 2016
+#
+# contributed by David Antler
+#
+# brand:                  ..\fedders_aircon_config.cf
+#   Fedders
+#
+# model no. of remote control:
+#   n/a
+#
+# devices being controlled by this remote:
+#
+#   Fedders Windows Unit A/C model A6V10S2B Rev. A
+#
+
+begin remote
+
+  name  ..\fedders_aircon_config.cf
+  bits           32
+  flags SPACE_ENC|CONST_LENGTH
+  eps            30
+  aeps          100
+
+  header       8975  4557
+  one           505  1723
+  zero          505   604
+  ptrail        512
+  repeat       8975  2299
+  gap          108476
+  toggle_bit_mask 0x0
+
+      begin codes
+          ON_OFF                   0x04FB40BF
+          FAN_SPEED                0x04FB58A7
+          MINUS_TEMP_TIME          0x04FB8877
+          PLUS_TEMP_TIME           0x04FB50AF
+          TIMER                    0x04FB9867
+          MODE                     0x04FB906F
+      end codes
+
+end remote
