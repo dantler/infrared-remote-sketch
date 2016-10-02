@@ -1,4 +1,4 @@
-/* ir_ble.ino - Infrared bit banger on Arduino101
+/* main.ino - Infrared bit banger on Arduino101
  *
  * Copyright (C) 2016 David Antler
  * All rights reserved.
@@ -86,7 +86,6 @@ const LircRemote fedders_aircon = {
 int GPIO_PIN = 3; // Used for IR LED
 extern BLEPeripheral blePeripheral;
 extern BLECharCharacteristic switchChar;
-#define MINUS_VALUE  10
 
 void setup() {
   // put your setup code here, to run once:
