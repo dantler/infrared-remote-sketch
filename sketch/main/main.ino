@@ -83,9 +83,10 @@ const LircRemote fedders_aircon = {
   }
 };
 
-int GPIO_PIN = 3; // Used for IR LED
+int IRLED_PIN = 3; // GPIO used for IR LED
 extern BLEPeripheral blePeripheral;
 extern BLECharCharacteristic switchChar;
+extern BLECharCharacteristic airconIsOn;
 
 void setup() {
   // put your setup code here, to run once:
@@ -95,33 +96,36 @@ void setup() {
   initBluetooth();
 }
 
+void toggleAircon() {
+  airconIsOn.setValue((airconIsOn.value() == 0) ? 1 : 0);
+}
+
 void loop() {
   // put your main code here, to run repeatedly:
   blePeripheral.poll();
 }
 
-void switchCharacteristicWritten(BLECentral& central, BLECharacteristic& characteristic) {
+void switchCharacteristicWritten(BLEHelper& central, BLECharacteristic& characteristic) {
    // central wrote new value to characteristic, update LED
    Serial.print("Characteristic event, written: \n");
    digitalWrite(13, HIGH);
    switch(switchChar.value()) {
     case 0:
-         sendRemoteCode(&fedders_aircon, ON_OFF, GPIO_PIN);
-         Serial.print("Aircon sent\n");
+         toggleAircon();
+         sendRemoteCode(&fedders_aircon, ON_OFF, IRLED_PIN);
          break;
          
     case 1:
          sendRawCode(kanto_yu5_power, 
                  _countof(kanto_yu5_power), 
-                 GPIO_PIN);
-         Serial.print("Kanto sent\n");
+                 IRLED_PIN);
          break;
          
     case 2:
          for(int i = 0; i < 3; i++) {
            sendRawCode(projector_POWER_ON, 
                    _countof(projector_POWER_ON), 
-                   GPIO_PIN);
+                   IRLED_PIN);
            delayMicroseconds(68780);
          }
          break;
@@ -130,7 +134,7 @@ void switchCharacteristicWritten(BLECentral& central, BLECharacteristic& charact
          for(int i = 0; i < 3; i++) {
            sendRawCode(projector_POWER_OFF, 
                    _countof(projector_POWER_OFF), 
-                   GPIO_PIN);
+                   IRLED_PIN);
            delayMicroseconds(68889);
          }
          break;
