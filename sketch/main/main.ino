@@ -83,10 +83,13 @@ const LircRemote fedders_aircon = {
   }
 };
 
-int IRLED_PIN = 3; // GPIO used for IR LED
+const int IRLED_PIN = 3; // GPIO used for IR LED
 extern BLEPeripheral blePeripheral;
 extern BLECharCharacteristic switchChar;
 extern BLECharCharacteristic airconIsOn;
+extern BLEUnsignedLongCharacteristic temperature;
+
+const int THERMRISTOR_ANALOG_PIN = A0;  // ADC used for thermristor
 
 void setup() {
   // put your setup code here, to run once:
@@ -98,6 +101,23 @@ void setup() {
 
 void toggleAircon() {
   airconIsOn.setValue((airconIsOn.value() == 0) ? 1 : 0);
+}
+
+#include <math.h>
+
+void doReadThermals() {
+  int sensorValue = 0;
+  int loopMax = 100;
+  for(int i = 0; i < loopMax; i++) {
+    sensorValue += analogRead(THERMRISTOR_ANALOG_PIN);
+  }
+  float voltage = sensorValue * (3.3) / (loopMax * 1023.0);
+
+  float degreesC, degreesF;
+
+  degreesC = (voltage - 0.5) * 100.0;
+  degreesF = degreesC * (9.0/5.0) + 32.0;
+  temperature.setValue((int)roundf(degreesF*10));
 }
 
 void loop() {

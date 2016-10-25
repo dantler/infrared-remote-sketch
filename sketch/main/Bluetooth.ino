@@ -68,10 +68,13 @@ void initBluetooth()
    blePeripheral.begin();
 }
 
+extern void doReadThermals();
+
 void blePeripheralConnectHandler(BLEHelper& central) {
    // central connected event handler
    Serial.print("Connected event, central: ");
    Serial.println(central.address());
+   doReadThermals();
 }
 
 void blePeripheralDisconnectHandler(BLEHelper& central) {
